@@ -1,4 +1,3 @@
-import { convertRawHeadersToMetadata } from "../../common/utils/utils";
 import BlobStorageContext from "../context/BlobStorageContext";
 import NotImplementedError from "../errors/NotImplementedError";
 import StorageErrorFactory from "../errors/StorageErrorFactory";
@@ -90,8 +89,7 @@ export default class BlockBlobHandler extends BaseHandler
 
     const blob: BlobModel = {
       deleted: false,
-      // Preserve metadata key case
-      metadata: convertRawHeadersToMetadata(blobCtx.request!.getRawHeaders()),
+      metadata: options.metadata,
       accountName,
       containerName,
       name: blobName,
@@ -133,8 +131,7 @@ export default class BlockBlobHandler extends BaseHandler
     await this.metadataStore.createBlob(
       context,
       blob,
-      options.leaseAccessConditions,
-      options.modifiedAccessConditions
+      options.leaseAccessConditions
     );
 
     const response: Models.BlockBlobUploadResponse = {
@@ -287,10 +284,7 @@ export default class BlockBlobHandler extends BaseHandler
     };
 
     blob.properties.blobType = Models.BlobType.BlockBlob;
-    blob.metadata = convertRawHeadersToMetadata(
-      // Preserve metadata key case
-      blobCtx.request!.getRawHeaders()
-    );
+    blob.metadata = options.metadata;
     blob.properties.accessTier = Models.AccessTier.Hot;
     blob.properties.cacheControl = options.blobHTTPHeaders.blobCacheControl;
     blob.properties.contentType = contentType;
@@ -319,8 +313,7 @@ export default class BlockBlobHandler extends BaseHandler
       context,
       blob,
       commitBlockList,
-      options.leaseAccessConditions,
-      options.modifiedAccessConditions
+      options.leaseAccessConditions
     );
 
     const contentMD5 = await getMD5FromString(rawBody);
@@ -359,8 +352,6 @@ export default class BlockBlobHandler extends BaseHandler
     );
 
     // TODO: Create uncommitted blockblob when stage block
-    // TODO: Conditional headers support?
-
     res.properties = res.properties || {};
     const response: Models.BlockBlobGetBlockListResponse = {
       statusCode: 200,

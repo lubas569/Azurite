@@ -31,17 +31,6 @@ export default class StorageErrorFactory {
     );
   }
 
-  public static getBlobAlreadyExists(
-    contextID: string = DefaultID
-  ): StorageError {
-    return new StorageError(
-      409,
-      "BlobAlreadyExists",
-      "The specified blob already exists.",
-      contextID
-    );
-  }
-
   public static getBlobNotFound(contextID: string = DefaultID): StorageError {
     return new StorageError(
       404,
@@ -167,17 +156,6 @@ export default class StorageErrorFactory {
       400,
       "InvalidHeaderValue",
       "The value for one of the HTTP headers is not in the correct format.",
-      contextID
-    );
-  }
-
-  public static getInvalidBlobOrBlock(
-    contextID: string = DefaultID
-  ): StorageError {
-    return new StorageError(
-      400,
-      "InvalidBlobOrBlock",
-      "The specified blob or block content is invalid.",
       contextID
     );
   }
@@ -376,17 +354,6 @@ export default class StorageErrorFactory {
     );
   }
 
-  public static getMultipleConditionHeadersNotSupported(
-    contextID: string
-  ): StorageError {
-    return new StorageError(
-      400,
-      "MultipleConditionHeadersNotSupported",
-      "Multiple condition headers are not supported.",
-      contextID
-    );
-  }
-
   public static getBlobSnapshotsPresent_hassnapshot(
     contextID: string
   ): StorageError {
@@ -507,44 +474,6 @@ export default class StorageErrorFactory {
       409,
       "SnapshotsPresent",
       "This operation is not permitted while the blob has snapshots.",
-      contextID
-    );
-  }
-
-  public static getConditionNotMet(contextID: string): StorageError {
-    return new StorageError(
-      412,
-      "ConditionNotMet",
-      "The condition specified using HTTP conditional header(s) is not met.",
-      contextID
-    );
-  }
-
-  public static getSequenceNumberConditionNotMet(
-    contextID: string
-  ): StorageError {
-    return new StorageError(
-      412,
-      "SequenceNumberConditionNotMet",
-      "The condition specified using HTTP conditional header(s) is not met.",
-      contextID
-    );
-  }
-
-  public static getNotModified(contextID: string): StorageError {
-    return new StorageError(
-      304,
-      "ConditionNotMet",
-      "The condition specified using HTTP conditional header(s) is not met.",
-      contextID
-    );
-  }
-
-  public static getUnsatisfiableCondition(contextID: string): StorageError {
-    return new StorageError(
-      400,
-      "UnsatisfiableCondition",
-      "The request includes an unsatisfiable condition for this operation.",
       contextID
     );
   }
